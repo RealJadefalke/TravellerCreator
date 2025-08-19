@@ -16,18 +16,24 @@ eingezogen = False #Variable um festzustellen ob der Charakter eingezogen wurde
 dienstrang = None #Dienstrang des Charakters
 offizierspatent = False #Hat der Charakter ein Offizierspatent oder nicht
 
+#Würfelwurf mit zwei Würfeln die addiert werden
+def zweiwehsechs():
+  x = random.randrange(1,6)
+  y = random.randrange(1,6)
+  return x+y
+
 #Grundcharakteristika auswürfeln
 def grundwerte():
-  attribute["Stärke"] = random.randrange(2, 12)
-  attribute["Geschicklichkeit"] = random.randrange(2, 12)
-  attribute["Ausdauer"] = random.randrange(2, 12)
-  attribute["Intelligenz"] = random.randrange(2, 12)
-  attribute["Bildung"] = random.randrange(2, 12)
-  attribute["Sozialstatus"] = random.randrange(2, 12)
+  attribute["Stärke"] = zweiwehsechs()
+  attribute["Geschicklichkeit"] = zweiwehsechs()
+  attribute["Ausdauer"] = zweiwehsechs()
+  attribute["Intelligenz"] = zweiwehsechs()
+  attribute["Bildung"] = zweiwehsechs()
+  attribute["Sozialstatus"] = zweiwehsechs()
 
 #Charakterlaufbahn festlegen
 def einstellung(x):
-  wurf = random.randrange(2,12)
+  wurf = zweiwehsechs()
   print(f"Dein Wurf:{wurf}")
   match x :
     case 1 : #Raumflotte
@@ -119,7 +125,7 @@ def einziehung(eingezogen) :
 
 #Überlebenswurf um festzustellen ob der Charakter überlebt
 def ueberlebt(x) :
-  wurf = random.randrange(2,12)
+  wurf = zweiwehsechs()
   match x:
     case "Raumflotte":
       if attribute["Intelligenz"] >= 7 :
@@ -171,13 +177,9 @@ def ueberlebt(x) :
         quit()
 
 
-#Beförderungswurf in der ersten Periode nur möglich wenn nicht eingezogen
-def befoerderung() :
-  if eingezogen == True :
-    eingezogen = False
-  else:
-    if offizierspatent == False:
-      wurf = random.randrange(2,12)
+#Offizierspatent festlegen
+def patent():
+      wurf = zweiwehsechs()
       match laufbahn:
         case "Raumflotte":
           if attribute["Sozialstatus"] >=9 :
@@ -214,7 +216,60 @@ def befoerderung() :
           else:
             print("Leider kein Patent, versuch es nächstes Jahr nochmal!")
         case "Andere":
-          pass
+          pass  
+
+#Neuer Rang erworben
+def rang():
+  wurf = zweiwehsechs()
+  match x:
+    case "Raumflotte":
+      if attribute["Bildung"] >= 8 :
+        wurf += 1
+      if wurf >= 8 :
+        print("Glückwunsch du wurdest Befördert!")
+        dienstrang += 1
+      else:
+        print("Leider wurde dir keine Beförderung gewährt, versuch es nächste Periode nochmal!")
+    case "Raumgarde":
+      if attribute["Sozialstatus"] >= 8 :
+        wurf += 1
+      if wurf >= 9 :
+        print("Glückwunsch du wurdest Befördert!")
+        dienstrang += 1
+      else:
+        print("Leider wurde dir keine Beförderung gewährt, versuch es nächste Periode nochmal!")
+    case "Heer":
+      if attribute["Bildung"] >= 7 :
+        wurf += 1
+      if wurf >= 6 :
+        print("Glückwunsch du wurdest Befördert!")
+        dienstrang += 1
+      else:
+        print("Leider wurde dir keine Beförderung gewährt, versuch es nächste Periode nochmal!")
+    case "Scoutdienst":
+      pass
+    case "Handelsflotte":
+      if attribute["Intelligenz"] >= 9 :
+        wurf += 1
+      if wurf >= 10 :
+        print("Glückwunsch du wurdest Befördert!")
+        dienstrang += 1
+      else:
+        print("Leider wurde dir keine Beförderung gewährt, versuch es nächste Periode nochmal!")
+    case "Andere":
+      pass
+
+
+#Beförderungswurf in der ersten Periode nur möglich wenn nicht eingezogen
+def befoerderung(x) :
+  if x == True :
+    eingezogen = False
+  else:
+    if offizierspatent == False:
+      patent()
+    if offizierspatent == True:
+      rang()
+
 
 
 
@@ -239,7 +294,7 @@ print("[5] Handelsflotte")
 print("[6] Andere")
 laufbahn = einstellung(int(input()))
 if laufbahn == None :
-  laufbahn = einziehung()
+  laufbahn = einziehung(eingezogen)
 print(laufbahn)
 ueberlebt(laufbahn)
-befoerderung()
+befoerderung(eingezogen)

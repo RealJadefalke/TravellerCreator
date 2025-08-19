@@ -1,0 +1,48 @@
+  match x:
+    case "Raumflotte":
+      if attribute["Intelligenz"] >= 7 :
+        wurf += 2
+      if wurf >= 5 :
+        print("Überlebt!")
+      else:
+        print("Leider gestorben! Versuch es nochmal!")
+        quit()
+    case "Raumgarde":
+      if attribute["Ausdauer"] >= 8 :
+        wurf += 2
+      if wurf >= 6 :
+        print("Überlebt!")
+      else:
+        print("Leider gestorben! Versuch es nochmal!")
+        quit()
+    case "Heer":
+      if attribute["Bildung"] >= 6 :
+        wurf += 2
+      if wurf >= 5 :
+        print("Überlebt!")
+      else:
+        print("Leider gestorben! Versuch es nochmal!")
+        quit()
+    case "Scoutdienst":
+      if attribute["Ausdauer"] >= 9 :
+        wurf += 2
+      if wurf >= 7 :
+        print("Überlebt!")
+      else:
+        print("Leider gestorben! Versuch es nochmal!")
+        quit()
+    case "Handelsflotte":
+      if attribute["Intelligenz"] >= 7 :
+        wurf += 2
+      if wurf >= 5 :
+        print("Überlebt!")
+      else:
+        print("Leider gestorben! Versuch es nochmal!")
+        quit()
+    case "Andere":
+      if attribute["Intelligenz"] >= 9 :
+        wurf += 2
+      if wurf >= 5 :
+        print("Überlebt!")
+      else:
+        print("Leider gestorben! Versuch es nochmal!")
