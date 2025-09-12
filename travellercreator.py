@@ -16,6 +16,12 @@ eingezogen = False #Variable um festzustellen ob der Charakter eingezogen wurde
 dienstrang = None #Dienstrang des Charakters
 offizierspatent = False #Hat der Charakter ein Offizierspatent oder nicht
 
+#Tabellen aus dem Buch um Fertigkeiten festzustellen als einzelne Listen
+
+#Persönliche Weiterbildung alle Laufbahnen
+pers_weiter_raumflotte = ["Stärke", "Geschicklichkeit", "Ausdauer", "Intelligenz", "Bildung", "Sozialstatus"]
+pers_weiter_raumgarde = ["Stärke", "Geschicklichkeit", "Ausdauer", "Glücksspiel", "Handgemenge", "Klingenwaffen"] 
+
 #Würfelwurf mit zwei Würfeln die addiert werden
 def zweiwehsechs():
   x = random.randrange(1,6)
