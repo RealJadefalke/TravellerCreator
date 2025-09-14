@@ -20,7 +20,19 @@ offizierspatent = False #Hat der Charakter ein Offizierspatent oder nicht
 
 #Persönliche Weiterbildung alle Laufbahnen
 pers_weiter_raumflotte = ["Stärke", "Geschicklichkeit", "Ausdauer", "Intelligenz", "Bildung", "Sozialstatus"]
-pers_weiter_raumgarde = ["Stärke", "Geschicklichkeit", "Ausdauer", "Glücksspiel", "Handgemenge", "Klingenwaffen"] 
+pers_weiter_raumgarde = ["Stärke", "Geschicklichkeit", "Ausdauer", "Glücksspiel", "Handgemenge", "Klingenwaffen"]
+pers_weiter_heer = ["Stärke", "Geschicklichkeit", "Ausdauer", "Glücksspiel", "Bildung", "Handgemenge"]
+pers_weiter_scoutdienst = ["Stärke", "Geschicklichkeit", "Ausdauer", "Intelligenz", "Bildung", "Schusswaffen"]
+pers_weiter_handelsflotte = ["Stärke", "Geschicklichkeit", "Ausdauer", "Stärke", "Klingenwaffen", "Bestechung"]
+pers_weiter_andere = ["Stärke", "Geschicklichkeit", "Ausdauer", "Klingenwaffen", "Handgemenge", "Minus Sozialstatus"]
+
+#Dienstfertigkeiten für alle Laufbahnen
+dienstfert_raumflotte = ["Raumboot", "Raumanzug", "Vorgeschobener Beobachter", "Bordschütze", "Klingenwaffen", "Schusswaffen"]
+dienstfert_raumgarde = ["AGF", "Raumanzug", "Klingenwaffen", "Schusswaffen", "Klingenwaffen", "Schusswaffen"]
+dienstfert_heer = ["AGF", "Gleiter", "Schusswaffen", "Vorgeschobener Beobachter", "Klingenwaffen", "Schusswaffen"]
+dienstfert_scoutdienst = ["Gleiter", "Raumanzug", "Mechanik", "Navigation", "Elektronik", "Vielseitigkeit"]
+dienstfert_handelsflotte = ["Fahrzeug", "Raumanzug", "Vielseitigkeit", "Steward", "Elektronik", "Schusswaffen"]
+dienstfert_andere = ["Fahrzeug", "Glücksspiel", "Handgemenge", "Bestechung", "Klingenwaffen", "Schusswaffen"]  
 
 #Würfelwurf mit zwei Würfeln die addiert werden
 def zweiwehsechs():
