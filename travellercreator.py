@@ -13,8 +13,14 @@ attribute = {
 
 laufbahn = None #Laufbahn des Charakters
 eingezogen = False #Variable um festzustellen ob der Charakter eingezogen wurde
-dienstrang = None #Dienstrang des Charakters
 offizierspatent = False #Hat der Charakter ein Offizierspatent oder nicht
+patentfertigkeit = False #Variable um Fertigkeit für Patent zu bekommen
+dienstrang = None #Dienstrang des Charakters
+befoerderungsfertigkeit = False #Variable für die Fertigkeit durch Beförderung
+dienstperiode = 0
+
+#Dictionary zum festhalten der erworbenen Fertigkeiten
+fertigkeiten = {}
 
 #Tabellen aus dem Buch um Fertigkeiten festzustellen als einzelne Listen
 
@@ -32,7 +38,23 @@ dienstfert_raumgarde = ["AGF", "Raumanzug", "Klingenwaffen", "Schusswaffen", "Kl
 dienstfert_heer = ["AGF", "Gleiter", "Schusswaffen", "Vorgeschobener Beobachter", "Klingenwaffen", "Schusswaffen"]
 dienstfert_scoutdienst = ["Gleiter", "Raumanzug", "Mechanik", "Navigation", "Elektronik", "Vielseitigkeit"]
 dienstfert_handelsflotte = ["Fahrzeug", "Raumanzug", "Vielseitigkeit", "Steward", "Elektronik", "Schusswaffen"]
-dienstfert_andere = ["Fahrzeug", "Glücksspiel", "Handgemenge", "Bestechung", "Klingenwaffen", "Schusswaffen"]  
+dienstfert_andere = ["Fahrzeug", "Glücksspiel", "Handgemenge", "Bestechung", "Klingenwaffen", "Schusswaffen"]
+
+#Höhere Bildung für alle Laufbahnen
+bildung_raumflotte = ["Raumanzug", "Mechanik", "Elektronik", "Ingenieur", "Bordschütze", "Vielseitigkeit"]
+bildung_raumgarde = ["Fahrzeug", "Mechanik", "Elektronik", "Taktik", "Klingenwaffen", "Schusswaffen"]
+bildung_heer = ["Fahrzeug", "Mechanik", "Elektronik", "Taktik", "Klingenwaffen", "Schusswaffen"]
+bildung_scoutdienst = ["Fahrzeug", "Mechanik", "Elektronik", "Vielseitigkeit", "Bordschütze", "Medizin"]
+bildung_handelsflotte = ["Milieu", "Mechanik", "Elektronik", "Navigation", "Bordschütze", "Medizin"]
+bildung_andere = ["Milieu", "Mechanik", "Elektronik", "Glücksspiel", "Handgemenge", "Fälschung"]
+
+#Höhere Bildung Charaktere Bildung 8+
+hoch_bild_raumflotte = ["Medizin", "Navigation", "Ingenieur", "Computer", "Pilot", "Verwaltung"]
+hoch_bild_raumgarde = ["Medizin", "Taktik", "Taktik", "Computer", "Führung", "Verwaltung"]
+hoch_bild_heer = ["Medizin", "Taktik", "Taktik", "Computer", "Führung", "Verwaltung"]
+hoch_bild_scoutdienst = ["Medizin", "Navigation", "Ingenieur", "Computer", "Pilot", "Vielseitigkeit"]
+hoch_bild_handelsflotte = ["Medizin", "Navigation", "Ingenieur", "Computer", "Pilot", "Verwaltung"]
+hoch_bild_andere = ["Medizin", "Fälschung", "Elektronik", "Computer", "Milieu", "Vielseitigkeit"]
 
 #Würfelwurf mit zwei Würfeln die addiert werden
 def zweiwehsechs():
@@ -203,7 +225,10 @@ def patent():
           if attribute["Sozialstatus"] >=9 :
             wurf +=1
           if wurf >= 10:
-            offizierspatent == True
+            global offizierspatent
+            offizierspatent = True
+            global patentfertigkeit
+            patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
             print("Leider kein Patent, versuch es nächstes Jahr nochmal!")
@@ -211,7 +236,10 @@ def patent():
           if attribute["Bildung"] >=7 :
             wurf +=1
           if wurf >= 9:
-            offizierspatent == True
+            global offizierspatent
+            offizierspatent = True
+            global patentfertigkeit
+            patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
             print("Leider kein Patent, versuch es nächstes Jahr nochmal!")
@@ -219,7 +247,10 @@ def patent():
           if attribute["Ausdauer"] >=9 :
             wurf +=1
           if wurf >= 5:
-            offizierspatent == True
+            global offizierspatent
+            offizierspatent = True
+            global patentfertigkeit
+            patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
             print("Leider kein Patent, versuch es nächstes Jahr nochmal!")
@@ -229,7 +260,10 @@ def patent():
           if attribute["Intelligenz"] >=6 :
             wurf +=1
           if wurf >= 4:
-            offizierspatent == True
+            global offizierspatent
+            offizierspatent = True
+            global patentfertigkeit
+            patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
             print("Leider kein Patent, versuch es nächstes Jahr nochmal!")
@@ -239,6 +273,7 @@ def patent():
 #Neuer Rang erworben
 def rang():
   wurf = zweiwehsechs()
+  global dienstrang
   match x:
     case "Raumflotte":
       if attribute["Bildung"] >= 8 :
@@ -281,6 +316,7 @@ def rang():
 #Beförderungswurf in der ersten Periode nur möglich wenn nicht eingezogen
 def befoerderung(x) :
   if x == True :
+    global eingezogen
     eingezogen = False
   else:
     if offizierspatent == False:
@@ -289,8 +325,36 @@ def befoerderung(x) :
       rang()
 
 
-
-
+#Fertigkeiten auswürfeln
+def fertigkeit(x) :
+  global patentfertigkeit
+  global attribute
+  anzahl = 0
+  if x == "Scoutdienst" :
+    anzahl = 2
+  else:
+    if dienstperiode == 1:
+      anzahl += 2
+    elif dienstperiode > 1:
+      anzahl += 1
+  if patentferfertigkeit == True :
+    anzahl += 1
+    patentfertigkeit = False
+  if befoerderungsfertigkeit == True :
+    anzahl += 1
+    befoerderungsfertigkeit = False
+for i in anzahl :
+  print("Bitte wähle Deinen Bildungsweg:")
+  print("Persönliche Weiterbildung [1]")
+  print("Dienstfertigkeiten [2]")
+  print("Höhere Bildung [3]")
+  if attribute["Bildung"] >= 8 :
+    print("Höhere Bildung Plus [4]")
+  auswahl = int(input())
+  match auswahl:
+    case 1:
+      
+  
 
 
 
@@ -300,9 +364,12 @@ def befoerderung(x) :
 
 print("Willkommen beim TRAVELLER Generator")
 grundwerte()
+
 print("Dein UPP:")
+#Gibt die Attribute aus mit Einrückung zur besseren lesbarkeit
 for key, value in attribute.items() :
   print (f"{key:<17}: {value:>2}")
+
 print("Wähle deine Dienstgattung:")
 print("[1] Raumflotte")
 print("[2] Raumgarde")
@@ -310,9 +377,13 @@ print("[3] Heer")
 print("[4] Scoutdienst")
 print("[5] Handelsflotte")
 print("[6] Andere")
+
 laufbahn = einstellung(int(input()))
 if laufbahn == None :
   laufbahn = einziehung(eingezogen)
 print(laufbahn)
 ueberlebt(laufbahn)
 befoerderung(eingezogen)
+dienstperiode += 1
+fertigkeit(laufbahn)
+
