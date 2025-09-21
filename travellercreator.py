@@ -225,9 +225,9 @@ def patent():
           if attribute["Sozialstatus"] >=9 :
             wurf +=1
           if wurf >= 10:
-            global offizierspatent
+            #global offizierspatent
             offizierspatent = True
-            global patentfertigkeit
+            #global patentfertigkeit
             patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
@@ -236,9 +236,9 @@ def patent():
           if attribute["Bildung"] >=7 :
             wurf +=1
           if wurf >= 9:
-            global offizierspatent
+            #global offizierspatent
             offizierspatent = True
-            global patentfertigkeit
+            #global patentfertigkeit
             patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
@@ -247,9 +247,9 @@ def patent():
           if attribute["Ausdauer"] >=9 :
             wurf +=1
           if wurf >= 5:
-            global offizierspatent
+            #global offizierspatent
             offizierspatent = True
-            global patentfertigkeit
+            #global patentfertigkeit
             patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
@@ -260,9 +260,9 @@ def patent():
           if attribute["Intelligenz"] >=6 :
             wurf +=1
           if wurf >= 4:
-            global offizierspatent
+            #global offizierspatent
             offizierspatent = True
-            global patentfertigkeit
+            #global patentfertigkeit
             patentfertigkeit = True
             print("Glückwunsch zum Offizierspatent!")
           else:
@@ -273,7 +273,7 @@ def patent():
 #Neuer Rang erworben
 def rang():
   wurf = zweiwehsechs()
-  global dienstrang
+  #global dienstrang
   match x:
     case "Raumflotte":
       if attribute["Bildung"] >= 8 :
@@ -316,7 +316,7 @@ def rang():
 #Beförderungswurf in der ersten Periode nur möglich wenn nicht eingezogen
 def befoerderung(x) :
   if x == True :
-    global eingezogen
+    #global eingezogen
     eingezogen = False
   else:
     if offizierspatent == False:
@@ -327,8 +327,8 @@ def befoerderung(x) :
 
 #Fertigkeiten auswürfeln
 def fertigkeit(x) :
-  global patentfertigkeit
-  global attribute
+  #global patentfertigkeit
+  #global fertigkeiten
   anzahl = 0
   if x == "Scoutdienst" :
     anzahl = 2
@@ -337,25 +337,57 @@ def fertigkeit(x) :
       anzahl += 2
     elif dienstperiode > 1:
       anzahl += 1
-  if patentferfertigkeit == True :
+  if patentfertigkeit == True :
     anzahl += 1
     patentfertigkeit = False
   if befoerderungsfertigkeit == True :
     anzahl += 1
     befoerderungsfertigkeit = False
-for i in anzahl :
-  print("Bitte wähle Deinen Bildungsweg:")
-  print("Persönliche Weiterbildung [1]")
-  print("Dienstfertigkeiten [2]")
-  print("Höhere Bildung [3]")
-  if attribute["Bildung"] >= 8 :
-    print("Höhere Bildung Plus [4]")
-  auswahl = int(input())
-  match auswahl:
-    case 1:
-      
-  
-
+  while anzahl >0 :
+    print("Bitte wähle Deinen Bildungsweg:")
+    print("Persönliche Weiterbildung [1]")
+    print("Dienstfertigkeiten [2]")
+    print("Höhere Bildung [3]")
+    if attribute["Bildung"] >= 8 :
+      print("Höhere Bildung Plus [4]")
+    auswahl = int(input())
+    match auswahl:
+      case 1:
+        anzahl -= 1
+        y = "pers_weiter_"+x.lower()
+        z = rand.range(0,5)
+        a = (locals()[y])[z]
+        if a in fertigkeiten :
+          fertigkeiten[a] += 1
+        else :
+          fertigkeiten.update({a : 1})
+      case 2:
+        anzahl -= 1
+        y = "dienstfert_"+x.lower()
+        z = rand.range(0,5)
+        a = (locals()[y])[z]
+        if a in fertigkeiten :
+          fertigkeiten[a] += 1
+        else :
+          fertigkeiten.update({a : 1})
+      case 3:
+        anzahl -= 1
+        y = "bildung_"+x.lower()
+        z = rand.range(0,5)
+        a = (locals()[y])[z]
+        if a in fertigkeiten :
+          fertigkeiten[a] += 1
+        else :
+          fertigkeiten.update({a : 1})
+      case 4:
+        anzahl -= 1
+        y = "hoch_bild_"+x.lower()
+        z = rand.range(0,5)
+        a = (locals()[y])[z]
+        if a in fertigkeiten :
+          fertigkeiten[a] += 1
+        else :
+          fertigkeiten.update({a : 1})
 
 
 
@@ -386,4 +418,4 @@ ueberlebt(laufbahn)
 befoerderung(eingezogen)
 dienstperiode += 1
 fertigkeit(laufbahn)
-
+print(fertigkeiten)
