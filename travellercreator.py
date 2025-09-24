@@ -327,8 +327,10 @@ def befoerderung(x) :
 
 #Fertigkeiten auswürfeln
 def fertigkeit(x) :
-  #global patentfertigkeit
-  #global fertigkeiten
+  global patentfertigkeit
+  global fertigkeiten
+  global befoerderungsfertigkeit
+  global attribute
   anzahl = 0
   if x == "Scoutdienst" :
     anzahl = 2
@@ -355,39 +357,51 @@ def fertigkeit(x) :
       case 1:
         anzahl -= 1
         y = "pers_weiter_"+x.lower()
-        z = rand.range(0,5)
-        a = (locals()[y])[z]
-        if a in fertigkeiten :
-          fertigkeiten[a] += 1
+        z = random.randrange(0,5)
+        a = (globals()[y])[z]
+        if a in attribute :
+          attribute[a] += 1
         else :
-          fertigkeiten.update({a : 1})
+          if a in fertigkeiten :
+            fertigkeiten[a] += 1
+          else :
+            fertigkeiten.update({a : 1})
       case 2:
         anzahl -= 1
         y = "dienstfert_"+x.lower()
-        z = rand.range(0,5)
-        a = (locals()[y])[z]
-        if a in fertigkeiten :
-          fertigkeiten[a] += 1
-        else :
-          fertigkeiten.update({a : 1})
+        z = random.randrange(0,5)
+        a = (globals()[y])[z]
+        if a in attribute :
+          attribute[a] += 1
+        else:
+          if a in fertigkeiten :
+            fertigkeiten[a] += 1
+          else :
+            fertigkeiten.update({a : 1})
       case 3:
         anzahl -= 1
         y = "bildung_"+x.lower()
-        z = rand.range(0,5)
-        a = (locals()[y])[z]
-        if a in fertigkeiten :
-          fertigkeiten[a] += 1
-        else :
-          fertigkeiten.update({a : 1})
+        z = random.randrange(0,5)
+        a = (globals()[y])[z]
+        if a in attribute :
+          attribute[a] += 1
+        else: 
+          if a in fertigkeiten :
+            fertigkeiten[a] += 1
+          else :
+            fertigkeiten.update({a : 1})
       case 4:
         anzahl -= 1
         y = "hoch_bild_"+x.lower()
-        z = rand.range(0,5)
-        a = (locals()[y])[z]
-        if a in fertigkeiten :
-          fertigkeiten[a] += 1
+        z = random.randrange(0,5)
+        a = (globals()[y])[z]
+        if a in attribute :
+          attribute[a] +=1
         else :
-          fertigkeiten.update({a : 1})
+          if a in fertigkeiten :
+            fertigkeiten[a] += 1
+          else :
+            fertigkeiten.update({a : 1})
 
 
 
@@ -418,4 +432,5 @@ ueberlebt(laufbahn)
 befoerderung(eingezogen)
 dienstperiode += 1
 fertigkeit(laufbahn)
-print(fertigkeiten)
+for key, value in fertigkeiten.items() :
+  print (f"{key:<17}: {value:>2}")
